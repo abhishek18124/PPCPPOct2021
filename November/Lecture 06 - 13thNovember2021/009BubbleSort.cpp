@@ -15,10 +15,17 @@ int main() {
 		// such that 0<=j<n-i where n-i is the number of comparision that you perform
 		// in the ith phase
 
+		bool hasSwappedHappened = false;
+
 		for(int j=0; j<n-i; j++) {
 			if(A[j] > A[j+1]) {
 				swap(A[j], A[j+1]);
+				hasSwappedHappened = true;
 			}
+		}
+
+		if(hasSwappedHappened == false) {
+			break;
 		}
 	}
 
