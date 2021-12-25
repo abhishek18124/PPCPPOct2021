@@ -2,10 +2,10 @@
 
 using namespace std;
 
-int* resize(int* A, int size) {
-	cout << "Resizing the array from " << size*4 << "B to " << size*2*4 << "B" << endl;
-	int* B = new int[2*size];
-	for(int i=0; i<size; i++) {
+int* resize(int* A, int capacity) {
+	cout << "Resizing the array from " << capacity*4 << "B to " << capacity*2*4 << "B" << endl;
+	int* B = new int[2*capacity];
+	for(int i=0; i<capacity; i++) {
 		B[i] = A[i];
 	}
 	delete [] A;

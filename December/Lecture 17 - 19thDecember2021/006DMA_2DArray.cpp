@@ -30,4 +30,12 @@ int main() {
 
 	print(ptr, m, n);
 
+	// releasing memory
+
+	for(int i=0; i<m; i++) {
+		delete [] ptr[i]; // to release the memory for the ith 1D array of size n i.e. ith row
+	}
+
+	delete [] ptr; // to release the memory for the 1D array of integer pointers of size m
+
 }
