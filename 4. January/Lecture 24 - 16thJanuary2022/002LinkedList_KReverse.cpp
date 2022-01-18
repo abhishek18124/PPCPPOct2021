@@ -31,7 +31,10 @@ void printLinkedList(node* head) {
 }
 
 node* kReverse(node* head, int k) {
-
+        // Base Case
+	 if(!head){
+            return NULL;
+        }
 	// 1. reverse the first k nodes
 	node* cur = head;
 	node* prev = NULL;
@@ -65,6 +68,9 @@ int main() {
 	printLinkedList(head);
 
 	int k = 2;
+	
+        head = kReverse(head, k);
 
+	printLinkedList(head);
 	return 0;
 }
