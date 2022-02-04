@@ -1,6 +1,6 @@
 /*
 
-Given a BST, design an algorithm convert it into a sorted linked list.
+	Given a BST, design an algorithm transform it into a sorted linked list in-place.
 
 */
 
@@ -23,11 +23,7 @@ public:
 
 int main() {
 
-	// sample BST
-
-	node* root = NULL;
-
-	root = new node(10);
+	node* root = new node(10);
 	
 	root->left = new node(5);
 	root->left->left  = new node(3);

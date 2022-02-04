@@ -1,10 +1,11 @@
 /*
 
-Given a binary tree, design an algorithm to check if the given tree is a BST or not.
+	Given a binary tree, design an algorithm to check if is a BST or not.
 
 */
 
 #include<iostream>
+#include<climits>
 
 using namespace std;
 
@@ -20,13 +21,34 @@ public:
 	}
 };
 
+node* findMaximum(node* root) {
+	if(!root) {
+		return NULL;
+	}
+
+	while(root->right != NULL) {
+		root = root->right;
+	}
+
+	return root;
+}
+
+node* findMinimum(node* root) {
+	if(!root) {
+		return NULL;
+	}
+
+	while(root->left != NULL) {
+		root = root->left;
+	}
+
+	return root;
+}
+
+
 int main() {
 
-	// sample BT
-
-	node* root = NULL;
-
-	root = new node(10);
+	node* root = new node(10);
 	
 	root->left = new node(5);
 	root->left->left  = new node(3);
@@ -35,6 +57,6 @@ int main() {
 	root->right = new node(15);
 	root->right->left  = new node(13);
 	root->right->right = new node(17);
-	
+
 	return 0;
 }

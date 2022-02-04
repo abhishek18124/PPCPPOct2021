@@ -1,6 +1,6 @@
 /*
 
-Given a sorted array, design an algorithm to build a balanced BST.
+	Given a inOrder traversal of a BST, design an algorithm to build a balanced BST.
 
 */
 
@@ -43,12 +43,14 @@ void levelOrder(node* root) {
 
 int main() {
 
-	int arr[] = {3, 5, 7, 10, 13, 15, 17};
-	int n = sizeof(arr) / sizeof(int);
+	int in[] = {3, 5, 7, 10, 13, 15, 17};
+	int n = sizeof(in) / sizeof(int);
 
-	node* root = NULL;
+	...
 
 	levelOrder(root);
+
+	cout << endl;
 	
 	return 0;
 }
