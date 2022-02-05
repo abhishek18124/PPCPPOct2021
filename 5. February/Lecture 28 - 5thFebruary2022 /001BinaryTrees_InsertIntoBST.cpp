@@ -52,11 +52,41 @@ void levelOrder(node* root) {
 	}
 }
 
+node* insert(node* root, int data) {
+
+	// base case
+	if(!root) {
+		node* n = new node(data);
+		return n;
+	}
+
+	// recursive case
+
+	if(data < root->data) {
+		// insert node with the given data in the leftSubtree
+		root->left = insert(root->left, data);
+	} else {
+		// insert node with the given data in the rightSubtree
+		root->right = insert(root->right, data);
+	}
+
+	return root;
+
+}
+
 int main() {
 
 	node* root = NULL;
 
-	...
+	root = insert(root, 10);
+	
+	root = insert(root, 5);
+	root = insert(root, 3);
+	root = insert(root, 7);
+
+	root = insert(root, 15);
+	root = insert(root, 13);
+	root = insert(root, 17);
 	
 	levelOrder(root);
 

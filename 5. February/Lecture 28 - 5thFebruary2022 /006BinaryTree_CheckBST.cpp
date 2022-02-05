@@ -7,6 +7,8 @@
 #include<iostream>
 #include<climits>
 
+#define ll long long
+
 using namespace std;
 
 class node {
@@ -21,28 +23,115 @@ public:
 	}
 };
 
-node* findMaximum(node* root) {
+int findMaximumData(node* root) {
 	if(!root) {
-		return NULL;
+		return INT_MIN;
 	}
 
 	while(root->right != NULL) {
 		root = root->right;
 	}
 
-	return root;
+	return root->data;
 }
 
-node* findMinimum(node* root) {
+int findMinimumData(node* root) {
 	if(!root) {
-		return NULL;
+		return INT_MAX;
 	}
 
 	while(root->left != NULL) {
 		root = root->left;
 	}
 
-	return root;
+	return root->data;
+}
+
+bool checkBST(node* root) {
+
+	// base case
+
+	if(!root) {
+		// empty tree is a BST
+		return true;
+	}
+
+	// recursive case
+
+	// 1. check if the leftSubtree is a BST
+	bool X = checkBST(root->left);
+
+	// 2. check if the rightSubtree is a BST
+	bool Y = checkBST(root->right);
+
+	// 3. check if the BST prop. is satisfied at the root node
+	bool Z = root->data > findMaximumData(root->left) && 
+	         root->data < findMinimumData(root->right) ? true : false;
+
+	return X && Y && Z;
+
+}
+
+class triple {
+
+	public :
+
+		bool isBST;
+		int minData;
+		int maxData;
+};
+
+
+triple checkBSTEfficient(node* root) {
+
+	triple t;
+
+	// base case
+
+	if(!root) {
+		// empty tree is a BST
+		t.isBST = true;
+		t.minData = INT_MAX;
+		t.maxData = INT_MIN;
+		
+		return t;
+	}
+
+	// recursive case
+
+	// 1. check if the leftSubtree is a BST and simultaneouly compute min. and max. data
+	triple tL = checkBSTEfficient(root->left);
+
+	// 2. check if the rightSubtree is a BST and simultaneously compute min. and max. data
+	triple tR = checkBSTEfficient(root->right);
+
+	// 3. check if the BST prop. is satisfied at the root node
+	bool Z = root->data > tL.maxData && 
+	         root->data < tR.minData ? true : false;
+
+	t.isBST = tL.isBST && tR.isBST && Z;
+	t.minData = min(root->data, tL.minData);
+	t.maxData = max(root->data, tR.maxData);
+
+	return t;
+
+}
+
+
+bool checkBSTEfficient(node* root, ll lb, ll ub) {
+
+	if(!root) {
+		// empty tree is a BST
+		return true;
+	}
+
+
+	// recursive case
+	
+	return root->data > lb && root->data < ub && 
+	       checkBSTEfficient(root->left, lb, root->data) && 
+	       checkBSTEfficient(root->right, root->data, ub);
+
 }
 
 
@@ -58,5 +147,20 @@ int main() {
 	root->right->left  = new node(13);
 	root->right->right = new node(17);
 
+	checkBST(root) ? cout << "true" << endl :
+	                 cout << "false" << endl;
+
+	checkBSTEfficient(root).isBST ? cout << "true" << endl :
+	                                cout << "false" << endl;
+
+	ll lb = (ll)INT_MIN - 1;
+	ll ub = (ll)INT_MAX + 1;
+
+	checkBSTEfficient(root, lb, ub) ? cout << "true" << endl : 
+	                                            cout << "false" << endl;
+
 	return 0;
 }
+
+
+

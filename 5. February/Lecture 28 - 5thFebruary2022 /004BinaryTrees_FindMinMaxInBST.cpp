@@ -20,8 +20,33 @@ public:
 	}
 };
 
-int main() {
+node* findMinimum(node* root) {
+	if(!root) {
+		return root;
+	}
 
+	while(root->left != NULL) {
+		root = root->left;
+	}
+
+	return root;
+
+}
+
+
+node* findMaximum(node* root) {
+	if(!root) {
+		return root;
+	}
+
+	while(root->right != NULL) {
+		root = root->right;
+	}
+
+	return root;
+}
+
+int main() {
 	node* root = new node(10);
 	
 	root->left = new node(5);
@@ -33,6 +58,15 @@ int main() {
 	root->right->left  = new node(13);
 	root->right->right = new node(17);
 	root->right->right->left = new node(16);
+
+	node* minNode = findMinimum(root);
+	node* maxNode = findMaximum(root);
+
+	minNode ? cout << "minimum data : " << minNode->data << endl :
+	          cout << "tree is empty!" << endl;
+
+	maxNode ? cout << "maximum data : " << maxNode->data << endl :
+	          cout << "tree is empty!" << endl; 
 	
 	return 0;
 }

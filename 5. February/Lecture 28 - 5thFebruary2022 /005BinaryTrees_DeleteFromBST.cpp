@@ -77,6 +77,56 @@ node* findMinimum(node* root) {
 }
 
 
+node* deleteFromBST(node* root, int key) {
+
+	// base case
+	if(!root) {
+		return root;
+	}
+
+	// recursive case
+
+	if(key < root->data) {
+		// delete the node with the given key from the leftSubtree
+		root->left = deleteFromBST(root->left, key);
+	} else if(key > root->data) {
+		// delete the node with the given key from the rightSubtree
+		root->right = deleteFromBST(root->right, key);
+	} else {
+		// delete the root(current) node
+		if(!root->left && !root->right) {
+			// you want to delete a leaf node
+			delete root;
+			root = NULL;
+		} else if(!root->left && root->right) {
+			// you want to delete a node with a single child which is a right child
+			node* temp = root->right;
+			delete root;
+			root = temp;
+		} else if(root->left && !root->right) {
+			// you want to delete a node with a single child which is a left child
+			node* temp = root->left;
+			delete root;
+			root = temp;
+		} else {
+			/// you want to delete a node with two child nodes
+
+			// node* leftMaxNode = findMaximum(root->left);
+			// swap(root->data, leftMaxNode->data);
+			// root->left = deleteFromBST(root->left, key);
+
+			node* rightMinNode = findMinimum(root->right);
+			swap(root->data, rightMinNode->data);
+			root->right = deleteFromBST(root->right, key);
+
+		}
+	}
+
+	return root;
+
+}
+
+
 int main() {
 
 	node* root = new node(10);
@@ -94,6 +144,29 @@ int main() {
 	root->right->left->left = new node(11);
 	root->right->right->left = new node(16);
 	root->right->right->right= new node(18);
+
+	inOrder(root);
+	cout << endl;
+	levelOrder(root);
+	cout << endl;
+
+	root = deleteFromBST(root, 6);
+	inOrder(root);
+	cout << endl;
+	levelOrder(root);
+	cout << endl;
+
+	root = deleteFromBST(root, 7);
+	inOrder(root);
+	cout << endl;
+	levelOrder(root);
+	cout << endl;
+
+	root = deleteFromBST(root, 10);
+	inOrder(root);
+	cout << endl;
+	levelOrder(root);
+	cout << endl;
 	
 	return 0;
 }

@@ -22,6 +22,26 @@ public:
 	}
 };
 
+bool search(node* root, int key) {
+
+	// base case
+	if(!root) {
+		return false;
+	}
+
+	// recursive case
+
+	if(root->data == key) {
+		return true;
+	} else if(key < root->data) {
+		// search for the key in the leftSubtree
+		return search(root->left, key);
+	} else {
+		// search for the key in the rightSubtree
+		return search(root->right, key);
+	}
+}
+
 int main() {
 
 	node* root = new node(10);
@@ -33,6 +53,9 @@ int main() {
 	root->right = new node(15);
 	root->right->left  = new node(13);
 	root->right->right = new node(17);
+
+	search(root, 20) ? cout << "true" << endl :
+	                  cout << "false" << endl;
 	
 	return 0;
 }
