@@ -13,6 +13,7 @@
 
 #include<iostream>
 #include<vector>
+#include<queue>
 
 using namespace std;
 
@@ -20,5 +21,35 @@ int main() {
 
     vector<int> ropeLengths = {4, 3, 2, 6};
 
+    priority_queue<int, vector<int>, greater<int>> minHeap(ropeLengths.begin(), 
+                                                            ropeLengths.end());
+
+    int totalCost = 0;
+
+    while(minHeap.size() > 1) {
+
+        int x = minHeap.top();
+        minHeap.pop();
+
+        int y = minHeap.top();
+        minHeap.pop();
+
+        totalCost += (x+y);
+        minHeap.push(x+y);
+
+    }
+
+    cout << totalCost << endl;
+
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
