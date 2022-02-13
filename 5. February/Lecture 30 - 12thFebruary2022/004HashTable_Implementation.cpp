@@ -34,6 +34,39 @@ class HashTable {
 		return key%n;
 	}
 
+	void transfer(node<T1, T2>* head) {
+		node<T1, T2>* temp = head;
+		while(temp != NULL) {
+			insert(temp->key, temp->value);
+			temp = temp->next;
+		}
+
+		while(head) {
+			temp = head;
+			head = head->next;
+			delete temp;
+		}
+	}
+
+	void rehash() {
+		node<T1, T2>** oldTable = table;
+		int oldN = n;
+
+		n *= 2;
+		m = 0;
+		table = new node<T1, T2>*[n];
+		for(int i=0; i<n; i++) {
+			table[i] = NULL;
+		}
+
+		for(int i=0; i<oldN; i++) {
+			transfer(oldTable[i]);
+		}
+
+		delete [] oldTable;
+
+	}
+
 	public :
 
 		HashTable(int n=5, double lft=0.7) {
@@ -60,7 +93,8 @@ class HashTable {
 
 			double lf = m / (n*1.0);
 			if(lf > lft) {
-				// rehash
+				cout << "rehasing..." << endl;
+				rehash();
 			}
 		}
 
@@ -106,10 +140,79 @@ class HashTable {
 				}
 			}
 		}
+
+		void printLinkedList(node<T1, T2>* head) {
+			while(head) {
+				cout << "(" << head->key << ", " << head->value << ")";
+				head = head->next;
+				if(head) cout << "->";
+			}
+			cout << endl;
+		}
+
+		void printHashTable() {
+			for(int i=0; i<n; i++) {
+				cout << i << " : ";
+				printLinkedList(table[i]);
+			}
+			cout << endl;
+
+		}
+
+		T2& operator[](T1 key) {
+			node<T1, T2>* ptr = find(key);
+			if(!ptr) {
+				// key is not present inside the hash table
+				T2 garbage;
+				insert(key, garbage);
+				ptr = find(key);
+			}
+			return ptr->value;
+		}
+
 };
 
 int main() {
 	
+	HashTable<int, int> ht;
+
+	ht.insert(0, 0);
+	ht.insert(10, 100);
+	ht.insert(1, 1);
+
+	ht.printHashTable();
+
+	ht.insert(12, 144);
+	ht.insert(13, 0);
+
+	ht.printHashTable();
+
+	ht[13] = 169;
+
+	ht.printHashTable();
+
+	ht[14] = 196;
+
+	ht.printHashTable();
+
+	// int key = 12;
+	// node<int, int>* temp = ht.find(key);
+	// temp ?  cout << temp->value << endl : 
+	//         cout << key << " is not present in the hash table" << endl;
+
+	// ht.erase(key);
+
+	// temp = ht.find(key);
+	// temp ?  cout << temp->value << endl : 
+	//         cout << key << " is not present in the hash table" << endl;
+
+
+	// ht.printHashTable();
+
+	// key = 0;
+	// ht.erase(key);
+
+	// ht.printHashTable();
 
 	return 0;	
 }
